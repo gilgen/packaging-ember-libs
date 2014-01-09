@@ -9,7 +9,7 @@
 port=$1
 if [ $#  -ne  1 ]
 then
-  port=8000
+  port=8001
 fi
 
 if [ $(uname -s) == "Darwin" ]
@@ -19,4 +19,4 @@ else
   open=xdg-open
 fi
 
-$open http://localhost:$port/template.html && python -m SimpleHTTPServer $port;
+$open http://localhost:$port && python -m SimpleHTTPServer $port;
