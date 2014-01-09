@@ -1,1 +1,54 @@
-slides>slide{-webkit-transition:none !important;-webkit-transition:none !important;-moz-transition:none !important;-o-transition:none !important;transition:none !important}
+/*
+Syntax error: File to import not found or unreadable: compass/css3/transition.
+              Load paths:
+                /Users/jgilgen/projects/packaging-ember-libs/theme
+                /Users/jgilgen/projects/packaging-ember-libs/theme/scss
+        on line 1 of scss/phone.scss
+
+1: @import "compass/css3/transition";
+2: 
+3: 
+4: /*Smartphones (portrait and landscape) ----------- */
+5: /*@media only screen
+6: and (min-width : 320px)
+
+Backtrace:
+scss/phone.scss:1
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/import_node.rb:67:in `rescue in import'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/import_node.rb:45:in `import'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/import_node.rb:28:in `imported_file'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/import_node.rb:37:in `css_import?'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:217:in `visit_import'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:100:in `visit'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `map'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:109:in `block in visit_children'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:121:in `with_environment'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:108:in `visit_children'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:128:in `visit_root'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/base.rb:37:in `visit'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:100:in `visit'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/visitors/perform.rb:7:in `visit'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/tree/root_node.rb:20:in `render'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/engine.rb:315:in `_render'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/engine.rb:262:in `render'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:362:in `update_stylesheet'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:203:in `block in update_stylesheets'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:201:in `each'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:201:in `update_stylesheets'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/sass-3.2.9/lib/sass/plugin/compiler.rb:283:in `block in watch'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/listen-0.7.3/lib/listen/multi_listener.rb:108:in `call'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/listen-0.7.3/lib/listen/multi_listener.rb:108:in `on_change'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/listen-0.7.3/lib/listen/multi_listener.rb:117:in `block in initialize_adapter'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/listen-0.7.3/lib/listen/adapter.rb:198:in `call'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/listen-0.7.3/lib/listen/adapter.rb:198:in `report_changes'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/listen-0.7.3/lib/listen/adapter.rb:210:in `poll_changed_dirs'
+/Users/jgilgen/.rvm/gems/ruby-1.9.3-p286/gems/listen-0.7.3/lib/listen/adapters/darwin.rb:38:in `block in start'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: compass/css3/transition.\A               Load paths:\A                 /Users/jgilgen/projects/packaging-ember-libs/theme\A                 /Users/jgilgen/projects/packaging-ember-libs/theme/scss\A         on line 1 of scss/phone.scss\A \A 1: @import \"compass/css3/transition\";\A 2: \A 3: \A 4: /*Smartphones (portrait and landscape) ----------- */\A 5: /*@media only screen\A 6: and (min-width : 320px)"; }

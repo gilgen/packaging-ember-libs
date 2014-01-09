@@ -9,7 +9,7 @@
 port=$1
 if [ $#  -ne  1 ]
 then
-  port=8001
+  port=8002
 fi
 
 if [ $(uname -s) == "Darwin" ]

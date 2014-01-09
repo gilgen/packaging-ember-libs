@@ -19,6 +19,7 @@ URL: https://code.google.com/p/io-2012-slides
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" media="all" href="theme/css/default.css">
   <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <link rel="icon" type="image/png" href="/images/ember-favicon.png">
   <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
   <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
 </head>
@@ -46,53 +47,313 @@ URL: https://code.google.com/p/io-2012-slides
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
+      <a style="font-size: 0.6em; border: none" href="https://twitter.com/jamiebikies">@jamiebikies</a>
+      <br />
       <a style="font-size: 0.6em; border: none" href="https://github.com/jamiebikies">github.com/jamiebikies</a>
     </hgroup>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Slide with Bullets</h2>
+      <h2>Good libraries have...</h2>
+
     </hgroup>
-    <article>
-      <ul>
-        <li>Titles are formatted as Open Sans with bold applied and font size is set at 45</li>
-        <li>Title capitalization is title case
-          <ul>
-            <li>Subtitle capitalization is title case</li>
-          </ul>
-        </li>
-        <li>Subtitle capitalization is title case</li>
-        <li>Titles and subtitles should never have a period at the end</li>
+    <article class="bigger">
+      <ul class="build">
+        <li>Distinct architecture</li>
+        <li>Release management</li>
+        <li>Test suite</li>
       </ul>
     </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Slide with Bullets that Build</h2>
-      <h3>Subtitle Placeholder</h3>
+      <h2>Architecture: Modules</h2>
     </hgroup>
     <article>
-      <p>A list where items build:</p>
-      <ul class="build">
-        <li>Pressing 'h' highlights code snippets</li>
-        <li>Pressing 'p' toggles speaker notes (if they're on the current slide)</li>
-        <li>Pressing 'f' toggles fullscreen viewing</li>
-        <li>Pressing 'w' toggles widescreen</li>
-        <li>Pressing 'o' toggles overview mode</li>
-        <li>Pressing 'ESC' toggles off these goodies</li>
-      </ul>
-      <p>Another list, but items fade as they build:</p>
-      <ul class="build fade">
-        <li>Hover over me!</li>
-        <li>Hover over me!</li>
-        <li>Hover over me!</li>
+      <ul class="buildfff">
+        <li>Javascript modules are currently all over the map</li>
+        <li>People use RequireJS (AMD), CommonJS, other, or nothing</li>
+        <li>
+          ECMAScript 6 is going to have module support built in.
+          <a href="http://wiki.ecmascript.org/doku.php?id=harmony:modules">Check it out</a>
+        </li>
+        <li>Wouldn't be be cool to use ES6 today?</li>
+        <li>
+          We can!
+          <a href="https://github.com/square/es6-module-transpiler">https://github.com/square/es6-module-transpiler</a>
+        </li>
+        <li>es6-module-transpiler compiles ("transpiles") your library written in schnazzy ES6 out into the various module systems used today</li>
+        <li>grunt-microlib pulls in es6-module-transpiler and provides other goodies as well, such as...</li>
       </ul>
     </article>
   </slide>
 
   <slide>
+    <hgroup>
+      <h2>Architecture: ES6 example...</h2>
+    </hgroup>
+    <article >
+      <pre class="prettyprint" data-lang="javascript">
+var global = (typeof window !== 'undefined') ? window : {},
+    Ember = global.Ember;
+
+var ClientEvents = Ember.Mixin.create({
+
+  needs: 'pusher',
+
+  // Fire an event programmatically. All Events must unfortunately use
+  // the client-<eventname> format for client events (a pusher restriction).
+  pusherTrigger: function(channelName, eventName, data) {
+    var channel = this.get('controllers.pusher').channelFor(channelName);
+    channel.trigger(eventName, data);
+  }
+
+});
+
+export { ClientEvents };
+</pre>
+    </article>
+  </slide>
+
+
+  <slide>
+    <hgroup>
+      <h2>Architecture: AMD transpilation</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="javascript">
+define("ember-pusher/client_events",
+  ["exports"],
+  function(__exports__) {
+    "use strict";
+    var global = (typeof window !== 'undefined') ? window : {},
+        Ember = global.Ember;
+
+    var ClientEvents = Ember.Mixin.create({
+
+      needs: 'pusher',
+
+      // Fire an event programmatically. All Events must unfortunately use
+      // the client-<eventname> format for client events (a pusher restriction).
+      pusherTrigger: function(channelName, eventName, data) {
+        var channel = this.get('controllers.pusher').channelFor(channelName);
+        channel.trigger(eventName, data);
+      }
+
+    });
+
+
+    __exports__.ClientEvents = ClientEvents;
+  });
+</pre>
+    </article>
+  </slide>
+
+
+    <slide>
+    <hgroup>
+      <h2>Architecture: CommonJS transpilation</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="javascript">
+"use strict";
+var global = (typeof window !== 'undefined') ? window : {},
+    Ember = global.Ember;
+
+var ClientEvents = Ember.Mixin.create({
+
+  needs: 'pusher',
+
+  // Fire an event programmatically. All Events must unfortunately use
+  // the client-<eventname> format for client events (a pusher restriction).
+  pusherTrigger: function(channelName, eventName, data) {
+    var channel = this.get('controllers.pusher').channelFor(channelName);
+    channel.trigger(eventName, data);
+  }
+
+});
+
+exports.ClientEvents = ClientEvents;
+</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Architecture: grunt-microlib</h2>
+    </hgroup>
+    <article>
+      <ul class="buildfff">
+        <li>grunt-microlib is super handy, it can...</li>
+        <li>uglify</li>
+        <li>minify</li>
+        <li>concat</li>
+        <li>transpile</li>
+        <li>run automated stupidity checks. ie: jshint</li>
+        <li>It does the things you'll need to build your library for production</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Test Suite</h2>
+      <!-- <h3>Subtitle Placeholder</h3> -->
+    </hgroup>
+    <article class="smaller">
+      <ul class="buildfff">
+        <li>Mocha works well for my needs</li>
+        <li>Suite hooks into grunt-microlib via the <b>test</b> task</li>
+        <li>Easy to run tests automatically for TDD, or whatever you're into</li>
+        <li>Tests follow familiar format:</li>
+        <li>
+              <pre class="prettyprint" data-lang="javascript">
+  describe("wire", function() {
+    it("initializes channelName in the bindings hash", function() {
+      assert.ok(pusherController.get('bindings')[channelName], "Creates a channel name");
+    });
+
+    it("initializes eventBindings in the bindings hash", function() {
+      var targetId = targetController._pusherEventsId();
+      assert.ok(
+        bindings[channelName].eventBindings[targetId].length == 2,
+        "Knows about two bound events"
+      );
+    });
+  });
+...
+</pre></li>
+      </ul>
+    </article>
+  </slide>
+
+
+    <slide>
+    <hgroup>
+      <h2>Test Suite: A Run</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre>
+jgilgen@muddy[~/projects/ember-pusher (master)] >>>> grunt test
+Running "mocha_phantomjs:phantom" (mocha_phantomjs) task
+DEBUG: -------------------------------
+DEBUG: Ember.VERSION : 1.0.0
+DEBUG: Handlebars.VERSION : 1.0.0
+DEBUG: jQuery.VERSION : 1.10.2
+DEBUG: -------------------------------
+
+  Controller
+    sanity
+      ✓ exists
+      ✓ initializes the bindings object properly
+    wire
+      ✓ initializes channelName in the bindings hash
+      ✓ initializes eventBindings in the bindings hash
+    socketId
+      ✓ sets a socket ID
+    channelFor
+      ✓ returns a channel object
+
+
+  ✔ 6 tests complete (203 ms)
+
+Done, without errors.
+</pre>
+    </article>
+  </slide>
+
+
+
+  <slide>
+    <hgroup>
+      <h2>Release Management</h2>
+    </hgroup>
+    <article>
+      <ul class="buildfff">
+        <li>I don't want to maintain links in a README</li>
+        <li>I don't want to maintain links on a site</li>
+        <li>I don't want to manually upload a file to S3</li>
+        <li>I don't want to have dist files in the repo</li>
+        <li>I only want the dist files to be uploaded when I'm pushing to a certain branch</li>
+        <li>This is a bit magical</li>
+        <li>Use Travis to upload the file to S3 for you on successful build!</li>
+        <li>Yep, you can do that...</li>
+      </ul>
+    </article>
+  </slide>
+
+    <slide>
+    <hgroup>
+      <h2>Release Management: Uploading</h2>
+    </hgroup>
+    <article class="smaller">
+
+      <ul class="buildfff">
+        <li>
+          <a href="https://github.com/pifantastic/grunt-s3#alternative-ways-of-including-your-s3-configuration">
+            https://github.com/pifantastic/grunt-s3#alternative-ways-of-including-your-s3-configuration
+          </a>
+        </li>
+        <li>grunt-s3 will use AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY env variables</li>
+        <li>Travis supports encrypted env variable setup so you don't have to commit secret keys the repo (which would be silly)</li>
+        <li>
+          <pre prettyprint data-lang="shell">
+travis encrypt AWS_ACCESS_KEY_ID=your_access_id
+travis encrypt AWS_SECRET_ACCESS_KEY=your_scret_key
+</pre>
+        </li>
+        <li>The output of which you add to your .travis file and bam.</li>
+        <li>Now Travis can upload your dist files to S3 on your behalf as part of a successful build. Wow!</li>
+      </ul>
+    </article>
+  </slide>
+
+
+
+    <slide>
+    <hgroup>
+      <h2>Test Suite: A .travis example</h2>
+    </hgroup>
+    <article class="smaller">
+      <pre>
+language: node_js
+node_js:
+- '0.10'
+before_install:
+- npm install -g grunt-cli
+after_success: grunt build s3
+<b>
+env:
+  global:
+  - secure: lHZs5OSYzk78hQmSr2KrsFQl+J/Zrt/MUDd0dqiCPmoIdU5855Kn0OguztG5GM+0fIdSfbDxKNv0ZgtdULStvtyrRmFLGbKSvK/VLpUrsGpSoAN0b0t35FpHAQVKnPUB9yWm2+Vy3O6Bt8Et0lfrvuhh5k6w2rmtDwItcqsQcdE=
+  - secure: qVNohfq19RIk+Ay427U9UEWtoloqeCLkj4wbFmG7VSV6KitzX+zvP36VmhxfXPnJhXua0Lh1Df75g916x9De9y4Q79gP1ImC/2udx0GJz5oiyEERHzsD480adTG0nWC2YOW+KliAAEl4aLTtT4RAu8b2MPq7Z6MgBXbAOZ4+ykU=
+</b>
+</pre>
+    <p>Your dist files on S3</p>
+    <img src="/images/distfiles.png" />
+    </article>
+  </slide>
+
+
+    <slide>
+    <hgroup>
+      <h2>Test Suite: A README.md example</h2>
+    </hgroup>
+    <article>
+    <p>Your README.md:</p>
+<pre class="prettyprint" data-lang="markdown">
+### Download
+- [ember-pusher.js](https://ember-pusher-builds.s3.amazonaws.com/ember-pusher.js)
+- [ember-pusher.min.js](https://ember-pusher-builds.s3.amazonaws.com/ember-pusher.min.js)
+- [ember-pusher.amd.js](https://ember-pusher-builds.s3.amazonaws.com/ember-pusher.amd.js)
+</pre>
+    </article>
+  </slide>
+
+
+  <slide hidden>
     <hgroup>
       <h2>Slide with (Smaller Font)</h2>
     </hgroup>
@@ -108,62 +369,8 @@ URL: https://code.google.com/p/io-2012-slides
     Hidden slides are left out of the presentation.
   </slide>
 
-  <slide>
-    <hgroup>
-      <h2>Code Slide (with Subtitle Placeholder)</h2>
-      <h3>Subtitle Placeholder</h3>
-    </hgroup>
-    <article>
-      <p>Press 'h' to highlight important sections of code (wrapped in <code>&lt;b&gt;</code>).</p>
-      <pre class="prettyprint" data-lang="javascript">
-&lt;script type='text/javascript'&gt;
-  // Say hello world until the user starts questioning
-  // the meaningfulness of their existence.
-  function helloWorld(world) {
-    <b>for (var i = 42; --i &gt;= 0;) {
-      alert('Hello ' + String(world));
-    }</b>
-  }
-&lt;/script&gt;
-</pre>
-    </article>
-  </slide>
 
-  <slide>
-    <hgroup>
-      <h2>Code Slide (Smaller Font)</h2>
-    </hgroup>
-    <article class="smaller">
-      <pre class="prettyprint" data-lang="javascript">
-// Say hello world until the user starts questioning
-// the meaningfulness of their existence.
-function helloWorld(world) {
-  for (var i = 42; --i &gt;= 0;) {
-    alert('Hello ' + String(world));
-  }
-}
-</pre>
-<pre class="prettyprint" data-lang="css">
-&lt;style&gt;
-  p { color: pink }
-  b { color: blue }
-&lt;/style&gt;
-</pre>
-<pre class="prettyprint" data-lang="html">
-&lt;!DOCTYPE html>
-&lt;html>
-&lt;head>
-  &lt;title>My Awesome Page&lt;/title>
-&lt;/head>
-&lt;body>
-  &lt;p&gt;Hello world&lt;/p&gt;
-&lt;body>
-&lt;/html>
-</pre>
-    </article>
-  </slide>
-
-  <slide>
+  <slide hidden>
     <aside class="note">
       <section>
         <ul>
@@ -183,7 +390,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <aside class="note">
       <section>
         <ul>
@@ -203,7 +410,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Slide with Image</h2>
     </hgroup>
@@ -213,7 +420,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Slide with Image (Centered horz/vert)</h2>
     </hgroup>
@@ -223,7 +430,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Table Option A</h2>
       <h3>Subtitle Placeholder</h3>
@@ -252,7 +459,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Table Option A (Smaller Text)</h2>
       <h3>Subtitle Placeholder</h3>
@@ -281,7 +488,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Table Option B</h2>
       <h3>Subtitle Placeholder</h3>
@@ -307,7 +514,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Slide Styles</h2>
     </hgroup>
@@ -340,7 +547,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide class="segue dark nobackground">
+  <slide hidden class="segue dark nobackground">
     <aside class="gdbar"><img src="images/google_developers_icon_128.png"></aside>
     <hgroup class="auto-fadein">
       <h2>Segue Slide</h2>
@@ -348,14 +555,14 @@ function helloWorld(world) {
     </hgroup>
   </slide>
 
-  <slide class="fill nobackground" style="background-image: url(images/sky.jpg)">
+  <slide hidden class="fill nobackground" style="background-image: url(images/sky.jpg)">
     <hgroup>
       <h2 class="white">Full Image (with Optional Header)</h2>
     </hgroup>
     <footer class="source white">www.flickr.com/photos/25797459@N06/5438799763/</footer>
   </slide>
 
-  <slide class="segue dark quote nobackground">
+  <slide hidden class="segue dark quote nobackground">
     <aside class="gdbar right bottom"><img src="images/google_developers_icon_128.png"></aside>
     <article class="flexbox vleft auto-fadein">
       <q>
@@ -368,7 +575,7 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <hgroup>
       <h2>Slide with Iframe</h2>
     </hgroup>
@@ -377,26 +584,15 @@ function helloWorld(world) {
     </article>
   </slide>
 
-  <slide>
+  <slide hidden>
     <article>
       <iframe data-src="http://www.google.com/doodle4google/resources/history.html"></iframe>
     </article>
   </slide>
 
-  <slide class="thank-you-slide segue nobackground">
-    <aside class="gdbar right"><img src="images/google_developers_icon_128.png"></aside>
-    <article class="flexbox vleft auto-fadein">
-      <h2>&lt;Thank You!&gt;</h2>
-      <p>Important contact information goes here.</p>
-    </article>
-    <p class="auto-fadein" data-config-contact>
-      <!-- populated from slide_config.json -->
-    </p>
-  </slide>
-
-  <slide class="logoslide dark nobackground">
+  <slide class="logoslide nobackground">
     <article class="flexbox vcenter">
-      <span><img src="images/google_developers_logo_white.png"></span>
+      <img style="width: 324px; height: 308px;" src="images/ember.png">
     </article>
   </slide>
 
